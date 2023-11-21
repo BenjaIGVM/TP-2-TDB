@@ -16,5 +16,11 @@ class Interaccion extends Model
         "iDperroCandidato",
         "preferencia"
     ];
+    public function perroInteresado(){
+        return $this->belongsTo(Perro::class, 'iDPerroInteresado');
+    }
+    public function perroCandidato(){
+        return $this->belongsTo(Perro::class, 'iDPerroCandidato');
+    }
 
 }
