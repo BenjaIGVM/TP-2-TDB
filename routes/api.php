@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\PerroController;
+use App\Http\Controllers\InteraccionController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,3 +20,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::prefix('/perro')->group(function () {
+    Route::post('/create', [PerroController::class, 'createPerro']);
+    Route::get('/view', [PerroController::class, 'viewPerro']);
+  
+});
+
