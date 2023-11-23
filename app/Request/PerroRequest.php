@@ -17,7 +17,7 @@ class PerroRequest extends FormRequest
             return [
                 'name' => 'required|string',
                 'url' => 'required|string',
-                'descripcion' => 'required|string'
+                'description' => 'required|string'
             ];
         
         } elseif ($this->isMethod('put')) {
@@ -25,7 +25,7 @@ class PerroRequest extends FormRequest
             return [
                 'name' => 'required|string',
                 'url' => 'required|string',
-                'descripcion' => 'required|string'
+                'description' => 'required|string'
             ];
         }elseif ($this->isMethod('delete')) { 
             // Reglas de valicacion para solicitud DELETE (delete)
@@ -49,7 +49,7 @@ class PerroRequest extends FormRequest
         return [
             'name.required' => 'El nombre es requerido',
             'url.required' => 'La url es requerida',
-            'descripcion.required' => 'La descripcion es requerida'
+            'description.required' => 'La descripcion es requerida'
         ];
      }
 
