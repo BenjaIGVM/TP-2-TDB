@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Spatie\FlareClient\Http\Response as HttpResponse;
-use App\Http\Requests\PerroRequest;
+use App\Http\Request\PerroRequest;
 
 class PerroController extends Controller
 {
