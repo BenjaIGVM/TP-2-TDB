@@ -15,7 +15,7 @@ class Perro extends Model{
     protected $fillable = [
         "name",
         "url",
-        "descripcion"
+        "description"
     ];
 
 }
