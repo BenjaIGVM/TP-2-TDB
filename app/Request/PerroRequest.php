@@ -3,61 +3,50 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
-class PerroRequest extends FormRequest
+
+class perroRequest extends FormRequest
 {
-    public function rules(): array{
-
-        if ($this->isMethod('post')) {
-            // Reglas de valicacion para solicitud POST (create)
-            return [
-                'name' => 'required|string',
-                'url' => 'required|string',
-                'description' => 'required|string'
-            ];
-        
-        } elseif ($this->isMethod('put')) {
-            // Reglas de valicacion para solicitud PUT (update)
-            return [
-                'name' => 'required|string',
-                'url' => 'required|string',
-                'description' => 'required|string'
-            ];
-        }elseif ($this->isMethod('delete')) { 
-            // Reglas de valicacion para solicitud DELETE (delete)
-            return [
-                'id' => 'required|integer'
-            ];
-        } 
-        elseif ($this->isMethod('get')) {
-            // Reglas de valicacion para solicitud GET (view)
-            return [
-                'id' => 'required|integer'
-            ];
-        } else {
-            //Reglas de validacion para cualquier otra solicitud (default)
-            return [];
-        }
-
-    }
-
-    public function messages(){
-        return [
-            'name.required' => 'El nombre es requerido',
-            'url.required' => 'La url es requerida',
-            'description.required' => 'La descripcion es requerida'
-        ];
-     }
-
-    public function failedValidation(Validator $validator)
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize()
     {
-        throw new HttpResponseException(response()->json([
-            "message" => "Error al crear el perro",
-            "error" => $validator->errors()
-        ], Response::HTTP_BAD_REQUEST));
+        return true;
     }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'name' => 'required|string|regex:/^[A-Za-z\s]+$/',
+            'url' => 'required|string|url',
+            'description' => 'required|string|regex:/^[A-Za-z\s.,]+$/',
+        ];
+    }
+    public function messages()
+    {
+    return[
+        'name.required' => 'El nombre es obligatorio',
+        'name.string' => 'El nombre debe ser un string',
+        'name.regex' => 'El nombre debe ser un string alfabético [A-Z]',
+        'url.required' => 'La url es obligatoria',
+        'url.string' => 'La url debe ser un string',
+        'url.url' => 'La url debe ser una url válida',
+        'description.required' => 'La descripción es obligatoria',
+        'description.string' => 'La descripción debe ser un string',
+        'description.regex' => 'La descripción no acepta numeros ni caracteres especiales',
+    ];
+    }
+    protected function failedValidation(Validator $validator)
+{
+    throw new HttpResponseException(response()->json($validator->errors()->all(), Response::HTTP_BAD_REQUEST));
+}
 }
