@@ -30,23 +30,58 @@ class PerroController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
     }
-    public function viewPerro(PerroRequest $request){
+       }
+    }
+
+    public function getOnePerro(Request $request, PerroService $perroService)
+    {
         try {
             $perro = Perro::find($request->id);
-            if ($perro) {
-                return response()->json([
-                    "message" => "Perro encontrado correctamente",
-                    "perro" => $perro], Response::HTTP_OK); 
-            }else {
-                throw new Exception("El perro de id: $request->id no se encuentra en la base de datos");
+
+            if (!$perro) {
+                return response()->json(['message' => 'Perro no encontrado'], Response::HTTP_NOT_FOUND);
             }
+
+            if ($perro->url == null) {
+                $imageUrl = $perroService->getRandomDogImage();
+                $perro->url = $imageUrl;
+                $perro->save();
+            }
+
+            return response()->json([
+                'message' => 'Perro encontrado',
+                'data' => $perro
+            ], Response::HTTP_OK);
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            return response()->json([
-                "message" => "Error al encontrar perro",
-                "error" => $e->getMessage()
-            ], Response::HTTP_BAD_REQUEST);
+            return response()->json(['message' => 'Error al encontrar el perro'], Response::HTTP_BAD_REQUEST);
         }
+    }
+
+
+    
+
+    public function getallPerros(Request $request, PerroService $perroService)
+    {
+    try {
+        $perros = Perro::all();
+        
+        foreach ($perros as $perro) {
+            if ($perro->url == null) {
+                $imageUrl = $perroService->getRandomDogImage();
+                $perro->url = $imageUrl;
+                $perro->save();
+            }
+        }
+
+        return response()->json([
+            'message' => 'Perros encontrados',
+            'error' => $perros
+        ], Response::HTTP_OK);
+    } catch (Exception $e) {
+        Log::error($e->getMessage());
+        return response()->json(['message' => 'Error al encontrar los perros'], Response::HTTP_BAD_REQUEST);
+    }
     }
 
 
