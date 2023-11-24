@@ -21,7 +21,7 @@ class PerroFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'url' => null,//probar con ''
+            'url' => ''
             'description' => $this->faker->text(),
         ];
     }
