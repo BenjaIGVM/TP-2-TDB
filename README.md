@@ -15,8 +15,8 @@ Incluidas en el archivo imsomnia
 
 ## Instalacion
 - Clonar el repositorio
-- Ejecutar el comando ```bash composer install```
-- Ejecutar el comando ```bash php artisan migrate```
-- Ejecutar el comando ```bash php artisan serve```
-- Ejecutar el comando ```bash php artisan db:seed```
+- Ejecutar el comando ```composer install```
+- Ejecutar el comando ```php artisan migrate```
+- Ejecutar el comando ```php artisan serve```
+- Ejecutar el comando ```php artisan db:seed```
 
