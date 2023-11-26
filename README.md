@@ -6,7 +6,7 @@ Integrantes:
 
 # Rutas del proyecto
 
-Incluidas en el archivo imsomnia
+Incluidas en el archivo imsomnia ```colección``` 
 
 ## Caracteristicas del proyecto
 
